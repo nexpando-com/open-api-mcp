@@ -3,4 +3,4 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: open-api-mcp
+    image: nexpando/open-api-mcp
