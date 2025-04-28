@@ -8,11 +8,9 @@ services:
     - type: bind
       source: ./get-axios.ts
       target: /app/get-axios.ts
-    - type: bind
-      source: ./open-api.yml
-      target: /app/open-api.yml
+    - ./specs:/app/specs
     environment:
-      - OPEN_API_FILE=/app/open-api.yml
+      - OPEN_API_FILE=/app/specs/open-api.yml
       - API_URL=https://api.mailgun.net
       - API_KEY=secret
       - MCP_NAME=Mailgun MCP

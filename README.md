@@ -24,23 +24,23 @@ curl -o open-api.json https://fakestoreapi.com/fakestoreapi.json
 ```
 
 # Docker
-- Create an `open-api.json` or `open-api.yml` in the current directory
+
+- `mkdir specs`
+- Create an `open-api.json` or `open-api.yml` under `specs` directory
 - Create `docker-compose.yml` file
 - For example:
 
-```
+```yml
 services:
   open-api-mcp:
     image: nexpando/open-api-mcp
     container_name: open-api-mcp
-    ports:
-      - "3000:3000"
+    # ports:
+    #  - "3000:3000"
     volumes:
-    - type: bind
-      source: ./open-api.json
-      target: /app/open-api.json
+      - ./specs:/app/specs
     environment:
-      - OPEN_API_FILE=/app/open-api.json
+      - OPEN_API_FILE=/app/specs/open-api.json
       - API_URL=  # Example: https://fakestoreapi.com
       # - API_KEY
       # - MCP_NAME=My MCP Server

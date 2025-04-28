@@ -5,11 +5,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-    - type: bind
-      source: ./open-api.json
-      target: /app/open-api.json
+      - ./specs:/app/specs
     environment:
-      - OPEN_API_FILE=/app/open-api.json
+      - OPEN_API_FILE=/app/specs/open-api.json
       - API_URL=https://meilisearch:7700
       - API_KEY=secret
       - MCP_NAME=Meilisearch MCP
