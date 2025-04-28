@@ -1,0 +1,27 @@
+{
+  "name": "open-api-mcp",
+  "module": "index.ts",
+  "type": "module",
+  "author": {
+    "name": "Nexpando",
+    "email": "contact@nexpando.com",
+    "url": "https://nexpando.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "bun index.ts",
+    "format": "bun prettier --write **/*.ts",
+    "inspect": "bunx fastmcp inspect index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prettier": "^3.5.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "fastmcp": "^1.23.0",
+    "openapi-zod-client": "^1.18.3"
+  }
+}

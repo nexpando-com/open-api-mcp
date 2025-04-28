@@ -1,0 +1,13 @@
+services:
+  open-api-mcp:
+    image: open-api-mcp
+    container_name: open-api-mcp
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app/
+    environment:
+      - OPEN_API_FILE=/app/fakestoreapi.json
+      - API_URL=https://fakestoreapi.com
+    #  - API_KEY
+ 

@@ -1,0 +1,6 @@
+services:
+  open-api-mcp:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: open-api-mcp

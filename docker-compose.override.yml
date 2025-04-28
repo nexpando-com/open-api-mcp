@@ -1,0 +1,6 @@
+services:
+  open-api-mcp:
+    volumes:
+    - type: bind
+      source: ./get-axios.ts
+      target: /app/get-axios.ts
