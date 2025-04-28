@@ -1,0 +1,19 @@
+services:
+  mailgun-mcp:
+    image: nexpando/open-api-mcp
+    container_name: mailgun-mcp
+    ports:
+      - "3000:3000"
+    volumes:
+    - type: bind
+      source: ./get-axios.ts
+      target: /app/get-axios.ts
+    - type: bind
+      source: ./open-api.yml
+      target: /app/open-api.yml
+    environment:
+      - OPEN_API_FILE=/app/open-api.yml
+      - API_URL=https://api.mailgun.net
+      - API_KEY=secret
+      - MCP_NAME=Mailgun MCP
+      - MCP_VERSION=0.0.1

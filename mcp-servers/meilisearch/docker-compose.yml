@@ -1,0 +1,16 @@
+services:
+  meilisearch-mcp:
+    image: nexpando/open-api-mcp
+    container_name: meilisearch-mcp
+    ports:
+      - "3000:3000"
+    volumes:
+    - type: bind
+      source: ./open-api.json
+      target: /app/open-api.json
+    environment:
+      - OPEN_API_FILE=/app/open-api.json
+      - API_URL=https://meilisearch:7700
+      - API_KEY=secret
+      - MCP_NAME=Meilisearch MCP
+      - MCP_VERSION=0.0.1

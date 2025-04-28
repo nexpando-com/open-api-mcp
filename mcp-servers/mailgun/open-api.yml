@@ -1,0 +1,127 @@
+openapi: 3.1.0
+info:
+  title: Mailgun API
+  description: Mailgun API defined by OpenAPI Specification (OAS) 3.1.0
+  version: 0.0.0
+servers:
+  - url: https://api.mailgun.net
+    description: US Mailgun
+  - url: https://api.eu.mailgun.net
+    description: EU Mailgun
+paths:
+  /v3/{domain_name}/events:
+    get:
+      tags:
+        - Events
+      summary: Retrieves a paginated list of events
+      description: >
+        Mailgun tracks every inbound and outbound message event and retains this
+        data for at least 3 days.
+
+        See [Filter
+        expression](https://documentation.mailgun.com/docs/mailgun/user-manual/events/#filter-expression)
+        for details about filtering expressions
+      operationId: get-v3-events
+      parameters:
+        - name: domain_name
+          in: path
+          description: The domain name
+          schema:
+            type: string
+        - name: begin
+          in: query
+          description: The beginning of the search time range in epoch seconds
+          schema:
+            type: string
+        - name: end
+          in: query
+          description: The end of the search time range in epoch seconds
+          schema:
+            type: string
+        - name: ascending
+          in: query
+          description: >-
+            Sort direction by time. Must be provided if the range end time is
+            not specified. Can be either yes or no
+          schema:
+            type: string
+            enum:
+              - 'yes'
+              - 'no'
+            x-enumDescriptions:
+              'yes': Sort by ascending time
+              'no': Do not sort
+        - name: limit
+          in: query
+          description: The number of entries to return (300 max)
+          schema:
+            type: integer
+            maximum: 300
+        - name: event
+          in: query
+          description: Filter by event type
+          schema:
+            type: string
+        - name: list
+          in: query
+          description: >-
+            Filter by mailing list email address that message was originally
+            sent to
+          schema:
+            type: string
+        - name: attachment
+          in: query
+          description: Filter by the name of an attached file
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Filter by email address mentioned in the From MIME header
+          schema:
+            type: string
+        - name: message-id
+          in: query
+          description: Filter by Mailgun message id returned by the messages API
+          schema:
+            type: string
+        - name: subject
+          in: query
+          description: Filter by subject line
+          schema:
+            type: string
+        - name: to
+          in: query
+          description: Filter by email address mentioned in the To MIME header
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: >-
+            Filter by message size. Mostly intended to be used with range
+            filtering expressions
+          schema:
+            type: string
+        - name: recipient
+          in: query
+          description: >-
+            Filter by email address of a recipient. While messages are
+            addressable to one or more recipients, each event (with one
+            exception) tracks one recipient. See stored events for use of
+            recipients
+          schema:
+            type: string
+        - name: recipients
+          in: query
+          description: >-
+            Specific to stored events, this field tracks all of the potential
+            message recipients.
+          schema:
+            type: string
+        - name: tags
+          in: query
+          description: Filter by user defined tags
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
