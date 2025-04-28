@@ -7,7 +7,11 @@ services:
     volumes:
       - ./:/app/
     environment:
-      - OPEN_API_FILE=/app/fakestoreapi.json
+      - OPEN_API_FILE=/app/open-api.json
       - API_URL=https://fakestoreapi.com
-    #  - API_KEY
+      # - API_KEY
+      # - MCP_NAME=My MCP Server
+      # - MCP_VERSION=1.0.0
+      # - MCP_TRANSPORT_TYPE=sse|stdio
+
  
