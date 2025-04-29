@@ -19,6 +19,9 @@ wget -q -O open-api.json https://fakestoreapi.com/fakestoreapi.json
 # or using curl
 curl -o open-api.json https://fakestoreapi.com/fakestoreapi.json
 
+# define env
+cp .env.template .env
+
 # start mcp server
 ./cli.sh open-api.json
 ```
