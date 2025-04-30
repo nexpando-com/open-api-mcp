@@ -16,6 +16,8 @@ const server = new FastMCP({
 const API_URL = process.env.API_URL || ''
 const PORT = process.env.PORT || 3000
 
+if (!API_URL) throw Error('API_URL is not defined!')
+
 ;(async () => {
   const axiosInstance = await getAxiosInstance()
 
