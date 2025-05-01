@@ -1,65 +1,106 @@
+```markdown
 # open-api-mcp
 
-Open API MCP is a command line tool that generates MCP server based on a OpenApi specifications.
+Open API MCP is a command-line tool that generates an MCP (Model Context Protocol) server based on OpenAPI specifications.
 
-Generate a MCP server based on OpenAPI specifications
+It simplifies the process of creating API clients and servers by leveraging OpenAPI schemas and generating strongly-typed clients using Zod.
 
-# How it works
+## Features
+
+- Generate MCP servers from OpenAPI specifications.
+- Automatically create Zod-based API clients for type-safe interactions.
+- Supports both JSON and YAML OpenAPI specification formats.
+- Easily configurable via environment variables or Docker Compose.
+
+## How It Works
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/nexpando-com/open-api-mcp.git
+   cd open-api-mcp
+   ```
+
+2. Install dependencies:
+   ```sh
+   bun install
+   ```
+
+3. Prepare an OpenAPI specification:
+   - Download an OpenAPI schema:
+     ```sh
+     wget -q -O open-api.json https://fakestoreapi.com/fakestoreapi.json
+     ```
+   - Or use `curl`:
+     ```sh
+     curl -o open-api.json https://fakestoreapi.com/fakestoreapi.json
+     ```
+
+4. Define environment variables:
+   ```sh
+   cp .env.template .env
+   ```
+
+5. Start the MCP server:
+   ```sh
+   ./cli.sh open-api.json
+   ```
+
+## Docker Setup
+
+1. Create a specs directory:
+   ```sh
+   mkdir specs
+   ```
+
+2. Add your OpenAPI specification (`open-api.json` or `open-api.yml`) to the specs directory.
+
+3. Create a docker-compose.yml file. Example configuration:
+   ```yml
+   services:
+     open-api-mcp:
+       image: nexpando/open-api-mcp
+       container_name: open-api-mcp
+       # ports:
+       #  - "3000:3000"
+       volumes:
+         - ./specs:/app/specs
+       environment:
+         - OPEN_API_FILE=/app/specs/open-api.json
+         - API_URL=  # Example: https://fakestoreapi.com
+         # - API_KEY
+         # - MCP_NAME=My MCP Server
+         # - MCP_VERSION=1.0.0
+         # - MCP_TRANSPORT_TYPE=sse|stdio
+   ```
+
+4. Replace `API_URL` and `API_KEY` with your data.
+
+5. Start the MCP server:
+   ```sh
+   docker-compose up
+   ```
+
+## Project Structure
 
 ```
-git clone https://github.com/nexpando-com/open-api-mcp.git
-
-cd open-api-mcp
-
-bun install
-
-# prepare an openapi specs
-wget -q -O open-api.json https://fakestoreapi.com/fakestoreapi.json
-
-# or using curl
-curl -o open-api.json https://fakestoreapi.com/fakestoreapi.json
-
-# define env
-cp .env.template .env
-
-# start mcp server
-./cli.sh open-api.json
+.
+├── cli.sh                  # CLI script to start the MCP server
+├── generate-client.ts      # Script to generate Zod-based API clients
+├── get-input-output.ts     # Utility functions for input/output paths
+├── specs/                  # Directory for OpenAPI specifications
+├── mcp-servers/            # Example MCP server configurations
+├── Dockerfile              # Dockerfile for containerized deployment
+├── docker-compose.yml      # Example Docker Compose configuration
+├── README.md               # Project documentation
+└── ...
 ```
 
-# Docker
-
-- `mkdir specs`
-- Create an `open-api.json` or `open-api.yml` under `specs` directory
-- Create `docker-compose.yml` file
-- For example:
-
-```yml
-services:
-  open-api-mcp:
-    image: nexpando/open-api-mcp
-    container_name: open-api-mcp
-    # ports:
-    #  - "3000:3000"
-    volumes:
-      - ./specs:/app/specs
-    environment:
-      - OPEN_API_FILE=/app/specs/open-api.json
-      - API_URL=  # Example: https://fakestoreapi.com
-      # - API_KEY
-      # - MCP_NAME=My MCP Server
-      # - MCP_VERSION=1.0.0
-      # - MCP_TRANSPORT_TYPE=sse|stdio
-```
-
-- Replace `API_URL` and `API_KEY` with your data
-- Start `mcp server`
-
-```
-docker-compose up
-```
-
-# References
+## References
 
 - [zodios](https://github.com/ecyrbe/zodios)
-- [openapi-zod-cliet](https://github.com/astahmer/openapi-zod-client)
-- [FastCMP](https://github.com/punkpeye/fastmcp)
+- [openapi-zod-client](https://github.com/astahmer/openapi-zod-client)
+- [FastMCP](https://github.com/punkpeye/fastmcp)
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
