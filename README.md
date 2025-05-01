@@ -1,4 +1,3 @@
-```markdown
 # open-api-mcp
 
 Open API MCP is a command-line tool that generates an MCP (Model Context Protocol) server based on OpenAPI specifications.
@@ -115,6 +114,7 @@ export const getAxiosInstance = () => {
   const instance = axios.create(options)
   return instance
 }
+```
 
 ## Customizing Authentication with Docker Compose
 
