@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: PocketBase API
+  description: OpenAPI specification for PocketBase's REST API
+  version: 0.8.0
+servers:
+  - url: http://localhost:8090
+    description: Local development server
+paths:
+  /api/collections:
+    get:
+      operationId: get-collections
+      summary: List of collections
+      description: List of collections
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            nullable: true
+        - name: perPage
+          in: query
+          schema:
+            type: integer
+            default: 30
+            nullable: true
+        - name: sort
+          in: query
+          schema:
+            type: string
+            nullable: true
+        - name: filter
+          in: query
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: 'OK'
+  /api/collections/{collection}:
+    get:
+      operationId: get-collection
+      summary: Returns a single Collection by its ID or name.
+      description: Returns a single Collection by its ID or name.
+      parameters:
+        - name: collection
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+
