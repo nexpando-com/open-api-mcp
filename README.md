@@ -95,6 +95,75 @@ It simplifies the process of creating API clients and servers by leveraging Open
 └── ...
 ```
 
+## Customizing Authentication
+
+The project uses Axios for making HTTP requests, and the default authentication method is configured in the `get-axios.ts` file. By default, it uses a Bearer token retrieved from the `API_KEY` environment variable.
+
+If you need to customize the authentication method (e.g., use a different header, token type, or authentication mechanism), you can override the `get-axios.ts` file. For example:
+
+```typescript
+// filepath: [get-axios.ts](http://_vscodecontentref_/1)
+import axios from 'axios'
+
+export const getAxiosInstance = () => {
+  const options = {
+    headers: {
+      'X-Custom-Auth': 'YourCustomAuthValue',
+      'Content-Type': 'application/json',
+    },
+  }
+  const instance = axios.create(options)
+  return instance
+}
+
+## Customizing Authentication with Docker Compose
+
+The project uses Axios for making HTTP requests, and the default authentication method is configured in the `get-axios.ts` file. By default, it uses a Bearer token retrieved from the `API_KEY` environment variable.
+
+If you are using Docker Compose, you can override the `get-axios.ts` file by mounting a custom version of the file as a volume. This allows you to customize the authentication method without modifying the original source code.
+
+### Steps to Customize
+
+1. Create a custom `get-axios.ts` file with your desired authentication logic. For example:
+
+   ```typescript
+   // filepath: ./custom/get-axios.ts
+   import axios from 'axios'
+
+   export const getAxiosInstance = () => {
+     const options = {
+       headers: {
+         'X-Custom-Auth': 'YourCustomAuthValue',
+         'Content-Type': 'application/json',
+       },
+     }
+     const instance = axios.create(options)
+     return instance
+   }
+   ```
+
+2. Update your `docker-compose.yml` file to override the default `get-axios.ts` file with your custom version:
+
+   ```yml
+   services:
+     open-api-mcp:
+       image: nexpando/open-api-mcp
+       container_name: open-api-mcp
+       volumes:
+         - ./specs:/app/specs
+         - ./custom/get-axios.ts:/app/get-axios.ts
+       environment:
+         - OPEN_API_FILE=/app/specs/open-api.json
+         - API_URL= ...
+   ```
+
+3. Start the MCP server with Docker Compose:
+   ```sh
+   docker-compose up
+   ```
+
+By overriding the `get-axios.ts` file, you can adapt the project to various authentication schemes, such as API keys, or custom headers, while keeping the original source code intact.
+
 ## References
 
 - [zodios](https://github.com/ecyrbe/zodios)
