@@ -27,6 +27,8 @@ services:
 - Up
 
 ```sh
+docker-compose up
+
  ✔ Container pocketbase-mcp  Created                                                                                                                                                     0.0s 
 Attaching to pocketbase-mcp
 pocketbase-mcp  | Generating API client from provided OpenAPI schema file: /app/specs/open-api.yml

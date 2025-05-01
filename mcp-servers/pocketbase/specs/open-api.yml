@@ -69,6 +69,34 @@ paths:
           description: 'OK'
 
   /api/collections/{collection}/records:
+    post:
+      operationId: create-record
+      summary: Creates a new collection Record.
+      description: Creates a new collection Record.
+      parameters:
+        - name: collection
+          description: ID or name of the collection.
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        description: Contains all fields in the collection
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: 'OK'
+        '401':
+          description: Unauthorized - missing or invalid token
+        '403':
+          description: Forbidden - user doesn't have access to this file
+        '404':
+          description: File not found
+
     get:
       operationId: get-records
       summary: List records from a collection
