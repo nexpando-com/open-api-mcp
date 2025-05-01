@@ -38,6 +38,20 @@ paths:
       responses:
         '200':
           description: 'OK'
+  /api/collections/{collection}/truncate:
+    delete:
+      operationId: truncate-collection
+      summary: Deletes all the records of a single collection (including their related files and cascade delete enabled relations).
+      description: Deletes all the records of a single collection (including their related files and cascade delete enabled relations).
+      parameters:
+        - name: collection
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '204':
+          description: 'OK'
   /api/collections/{collection}:
     get:
       operationId: get-collection
@@ -45,6 +59,7 @@ paths:
       description: Returns a single Collection by its ID or name.
       parameters:
         - name: collection
+          description: ID or name of the collection.
           in: path
           schema:
             type: string
@@ -53,3 +68,297 @@ paths:
         '200':
           description: 'OK'
 
+  /api/collections/{collection}/records:
+    get:
+      operationId: get-records
+      summary: List records from a collection
+      description: Returns a paginated list of records from the specified collection
+      parameters:
+        - name: collection
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/filter'
+        - $ref: '#/components/parameters/expand'
+        - $ref: '#/components/parameters/fields'
+        - $ref: '#/components/parameters/skipTotal'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResponse'
+        '400':
+          description: Invalid request parameters
+        '404':
+          description: Collection not found
+              
+  /api/collections/{collection}/records/{record}:
+    get:
+      operationId: get-record
+      summary: Get a single record
+      description: Returns a single record by its ID
+      parameters:
+        - name: collection
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: record
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/expand'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Record not found
+
+  /api/files/{collection}/{record}/{filename}:
+    get:
+      operationId: get-file
+      summary: Get a file resource
+      description: |
+        Retrieves a file resource attached to a specific record in a collection.
+        Supports thumbnails for image files and download options.
+      parameters:
+        - name: collection
+          in: path
+          required: true
+          description: ID or name of the collection whose record model contains the file resource
+          schema:
+            type: string
+        - name: record
+          in: path
+          required: true
+          description: ID of the record model that contains the file resource
+          schema:
+            type: string
+        - name: filename
+          in: path
+          required: true
+          description: Name of the file resource
+          schema:
+            type: string
+        - $ref: '#/components/parameters/thumb'
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/download'
+      responses:
+        '200':
+          description: File resource successfully retrieved
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/gif:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            # Additional content types could be added as needed
+        '401':
+          description: Unauthorized - missing or invalid token
+        '403':
+          description: Forbidden - user doesn't have access to this file
+        '404':
+          description: File not found
+
+components:
+  parameters:
+    page:
+      name: page
+      in: query
+      description: The page (aka. offset) of the paginated list
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+      required: false
+      
+    perPage:
+      name: perPage
+      in: query
+      description: The max returned records per page
+      schema:
+        type: integer
+        default: 30
+        minimum: 1
+        maximum: 500
+      required: false
+      
+    sort:
+      name: sort
+      in: query
+      description: |
+        Specify the ORDER BY fields. Add - / + (default) in front of the attribute for 
+        DESC / ASC order, e.g.: `-created,id` for DESC sort by created and ASC by id.
+        Supported sort fields: @random, @rowid, id, and any other collection field.
+      schema:
+        type: string
+      required: false
+      example: "-created,id"
+      
+    filter:
+      name: filter
+      in: query
+      description: |
+        Filter expression to filter/search the returned records list, e.g.:
+        `(title~'abc' && created>'2022-01-01')`
+        
+        Supported operators:
+        - `=` Equal
+        - `!=` NOT equal
+        - `>` Greater than
+        - `>=` Greater than or equal
+        - `<` Less than
+        - `<=` Less than or equal
+        - `~` Like/Contains (auto wraps in "%" for wildcard match)
+        - `!~` NOT Like/Contains
+        - `?=` Any/At least one of Equal
+        - `?!=` Any/At least one of NOT equal
+        - `?>` Any/At least one of Greater than
+        - `?>=` Any/At least one of Greater than or equal
+        - `?<` Any/At least one of Less than
+        - `?<=` Any/At least one of Less than or equal
+        - `?~` Any/At least one of Like/Contains
+        - `?!~` Any/At least one of NOT Like/Contains
+        
+        To group and combine expressions: parenthesis (...), && (AND) and || (OR).
+        Single line comments: // Example comment.
+      schema:
+        type: string
+      required: false
+      example: "(title~'test' && created>'2022-01-01')"
+      
+    expand:
+      name: expand
+      in: query
+      description: |
+        Auto expand record relations. Ex.: `relField1,relField2.subRelField`
+        Supports up to 6-levels depth nested relations expansion.
+        The expanded relations will be appended under the expand property.
+        Only relations the request user has permissions to view will be expanded.
+      schema:
+        type: string
+      required: false
+      example: "author,comments.user"
+      
+    fields:
+      name: fields
+      in: query
+      description: |
+        Comma separated string of fields to return (default returns all fields). Ex.:
+        `*,expand.relField.name`
+        
+        * targets all keys from the specific depth level.
+        
+        Field modifiers:
+        - `:excerpt(maxLength, withEllipsis?)` - Returns a short plain text version
+          Ex.: `description:excerpt(200,true)`
+      schema:
+        type: string
+      required: false
+      example: "id,title,content:excerpt(100,true),author"
+      
+    skipTotal:
+      name: skipTotal
+      in: query
+      description: |
+        If set, total counts query will be skipped and response fields totalItems 
+        and totalPages will have -1 value. Can significantly speed up search queries
+        when total counts aren't needed or when using cursor-based pagination.
+      schema:
+        type: boolean
+        default: false
+      required: false
+
+    thumb:
+      name: thumb
+      in: query
+      description: |
+        Get the thumb version of the requested file.
+        The following thumb formats are supported:
+        
+        - WxH (e.g. 100x300) - crop to WxH viewbox (from center)
+        - WxHt (e.g. 100x300t) - crop to WxH viewbox (from top)
+        - WxHb (e.g. 100x300b) - crop to WxH viewbox (from bottom)
+        - WxHf (e.g. 100x300f) - fit inside a WxH viewbox (without cropping)
+        - 0xH (e.g. 0x300) - resize to H height preserving the aspect ratio
+        - Wx0 (e.g. 100x0) - resize to W width preserving the aspect ratio
+        
+        If the thumb size is not defined in the file schema field options or the file 
+        resource is not an image (jpg, png, gif, webp), then the original file 
+        resource is returned unmodified.
+      schema:
+        type: string
+      required: false
+      example: "100x100"
+
+    token:
+      name: token
+      in: query
+      description: |
+        Optional file token for granting access to protected file(s).
+      schema:
+        type: string
+      required: false
+
+    download:
+      name: download
+      in: query
+      description: |
+        If set to a truthy value (1, t, true) the file will be served with 
+        Content-Disposition: attachment header instructing the browser to ignore 
+        the file preview for pdf, images, videos, etc. and to directly download the file.
+      schema:
+        type: boolean
+      required: false
+
+  schemas:
+    PaginatedResponse:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Current page number
+        perPage:
+          type: integer
+          description: Number of items per page
+        totalItems:
+          type: integer
+          description: Total number of items (-1 if skipTotal is true)
+        totalPages:
+          type: integer
+          description: Total number of pages (-1 if skipTotal is true)
+        items:
+          type: array
+          description: Array of result items
+          items:
+            type: object
+        expand:
+          type: object
+          description: Contains expanded relation objects when using expand parameter
