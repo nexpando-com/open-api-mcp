@@ -1,0 +1,17 @@
+services:
+  metabase-mcp:
+    image: nexpando/open-api-mcp
+    container_name: metabase-mcp
+    volumes:
+    - type: bind
+      source: ./get-axios.ts
+      target: /app/get-axios.ts
+    - ./specs:/app/specs
+    environment:
+      - OPEN_API_FILE=/app/specs/open-api.json
+      - API_URL=${API_URL}
+      - API_KEY=${API_KEY}
+      - METABASE_USERNAME=${METABASE_USERNAME}
+      - METABASE_PASSWORD=${METABASE_PASSWORD}
+      - MCP_NAME=Metabase MCP
+      - MCP_VERSION=0.0.1
