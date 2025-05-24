@@ -41,7 +41,28 @@ It simplifies the process of creating API clients and servers by leveraging Open
 
 5. Start the MCP server:
    ```sh
+   bun dev
+   # or
    ./cli.sh open-api.json
+
+  Tool loginUser added to OpenApi MCP server.
+  Tool getAllCarts added to OpenApi MCP server.
+  Tool addCart added to OpenApi MCP server.
+  Tool getCartById added to OpenApi MCP server.
+  Tool updateCart added to OpenApi MCP server.
+  Tool deleteCart added to OpenApi MCP server.
+  Tool getAllProducts added to OpenApi MCP server.
+  Tool addProduct added to OpenApi MCP server.
+  Tool getProductById added to OpenApi MCP server.
+  Tool updateProduct added to OpenApi MCP server.
+  Tool deleteProduct added to OpenApi MCP server.
+  Tool getAllUsers added to OpenApi MCP server.
+  Tool addUser added to OpenApi MCP server.
+  Tool getUserById added to OpenApi MCP server.
+  Tool updateUser added to OpenApi MCP server.
+  Tool deleteUser added to OpenApi MCP server.
+  [FastMCP info] server is running on HTTP Stream at http://localhost:3000/stream
+  OpenApi MCP server 0.0.1 running as httpStream
    ```
 
 ## Docker Setup
@@ -78,6 +99,23 @@ It simplifies the process of creating API clients and servers by leveraging Open
    ```sh
    docker-compose up
    ```
+
+## Example MCP servers in Librechat
+- See [https://github.com/danny-avila/LibreChat](https://github.com/danny-avila/LibreChat) 
+- `librechat.yaml`
+
+```yml
+version: 1.1.4
+cache: true
+...
+mcpServers:
+  my-mcp:
+    type: streamable-http
+    url: http://my-mcp:3000/stream
+  mailgun:
+    type: streamable-http
+    url: http://mailgun-mcp:3000/stream
+```
 
 ## Project Structure
 
@@ -165,7 +203,7 @@ If you are using Docker Compose, you can override the `get-axios.ts` file by mou
 By overriding the `get-axios.ts` file, you can adapt the project to various authentication schemes, such as API keys, or custom headers, while keeping the original source code intact.
 
 ## References
-
+- [open-api-mcp](https://github.com/nexpando-com/open-api-mcp)
 - [zodios](https://github.com/ecyrbe/zodios)
 - [openapi-zod-client](https://github.com/astahmer/openapi-zod-client)
 - [FastMCP](https://github.com/punkpeye/fastmcp)

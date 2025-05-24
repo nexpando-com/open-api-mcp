@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
+    "dev": "bun generate-client.ts open-api.json && bun start",
     "start": "bun index.ts",
     "format": "bun prettier --write **/*.ts",
     "inspect": "bunx fastmcp inspect index.ts"
@@ -21,7 +22,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "fastmcp": "^1.23.0",
+    "ajv": "^8.17.1",
+    "fastmcp": "^2.1.2",
     "openapi-zod-client": "^1.18.3"
   }
 }
