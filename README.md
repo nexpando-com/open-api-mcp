@@ -44,25 +44,27 @@ It simplifies the process of creating API clients and servers by leveraging Open
    bun dev
    # or
    ./cli.sh open-api.json
-
-  Tool loginUser added to OpenApi MCP server.
-  Tool getAllCarts added to OpenApi MCP server.
-  Tool addCart added to OpenApi MCP server.
-  Tool getCartById added to OpenApi MCP server.
-  Tool updateCart added to OpenApi MCP server.
-  Tool deleteCart added to OpenApi MCP server.
-  Tool getAllProducts added to OpenApi MCP server.
-  Tool addProduct added to OpenApi MCP server.
-  Tool getProductById added to OpenApi MCP server.
-  Tool updateProduct added to OpenApi MCP server.
-  Tool deleteProduct added to OpenApi MCP server.
-  Tool getAllUsers added to OpenApi MCP server.
-  Tool addUser added to OpenApi MCP server.
-  Tool getUserById added to OpenApi MCP server.
-  Tool updateUser added to OpenApi MCP server.
-  Tool deleteUser added to OpenApi MCP server.
-  [FastMCP info] server is running on HTTP Stream at http://localhost:3000/stream
-  OpenApi MCP server 0.0.1 running as httpStream
+   ```
+6. Console output:
+   ```sh
+    Tool loginUser added to OpenApi MCP server.
+    Tool getAllCarts added to OpenApi MCP server.
+    Tool addCart added to OpenApi MCP server.
+    Tool getCartById added to OpenApi MCP server.
+    Tool updateCart added to OpenApi MCP server.
+    Tool deleteCart added to OpenApi MCP server.
+    Tool getAllProducts added to OpenApi MCP server.
+    Tool addProduct added to OpenApi MCP server.
+    Tool getProductById added to OpenApi MCP server.
+    Tool updateProduct added to OpenApi MCP server.
+    Tool deleteProduct added to OpenApi MCP server.
+    Tool getAllUsers added to OpenApi MCP server.
+    Tool addUser added to OpenApi MCP server.
+    Tool getUserById added to OpenApi MCP server.
+    Tool updateUser added to OpenApi MCP server.
+    Tool deleteUser added to OpenApi MCP server.
+    [FastMCP info] server is running on HTTP Stream at http://localhost:3000/stream
+    OpenApi MCP server 0.0.1 running as httpStream
    ```
 
 ## Docker Setup
