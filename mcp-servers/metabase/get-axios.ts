@@ -9,18 +9,18 @@ curl http://localhost:3000/api/session/ \
   "username": ""
 }'
 */
-const API_URL = process.env.API_URL;
+const API_URL = process.env.API_URL
 const username = process.env.METABASE_USERNAME
 const password = process.env.METABASE_PASSWORD
 
 if (!username || !password) throw new Error('Either METABASE_USERNAME or METABASE_USERNAME not defined!')
 
-let session = '';
+let session = ''
 
 export const getAxiosInstance = async () => {
   if (!session) {
-    const resp = await login(username, password);
-    session = resp.id;
+    const resp = await login(username, password)
+    session = resp.id
   }
   const options = {
     headers: {
@@ -33,10 +33,10 @@ export const getAxiosInstance = async () => {
 }
 
 const login = async (username: string, password: string) => {
-  const url = `${API_URL}/api/session`;
+  const url = `${API_URL}/api/session`
   const response = await axios.post(url, {
     username,
-    password
-  });
-  return response.data;
+    password,
+  })
+  return response.data
 }

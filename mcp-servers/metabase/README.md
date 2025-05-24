@@ -23,16 +23,25 @@ services:
       - MCP_VERSION=0.0.1
 ```
 
-- Up
+## Setup environment variables
+
+```
+cp .env.template .env
+
+# edit metabase parameters in .env file
+
+API_URL=
+METABASE_USERNAME=
+METABASE_PASSWORD=
+```
+## Up
 
 ```sh
-docker-compose up
 WARN[0000] The "API_KEY" variable is not set. Defaulting to a blank string. 
 [+] Running 0/1
- ⠙ Container metabase-mcp  Recreated                                                                                                                                                     0.2s 
+ ⠙ Container metabase-mcp  Recreated                                                                                                                                                          0.1s 
 Attaching to metabase-mcp
 metabase-mcp  | Generating API client from provided OpenAPI schema file: /app/specs/open-api.json
-metabase-mcp  | session... 07969889-4095-40d5-952c-c9c1c3b5e087
 metabase-mcp  | Tool getApiaction added to Metabase MCP.
 metabase-mcp  | Tool postApiaction added to Metabase MCP.
 metabase-mcp  | Tool getApiactionActionId added to Metabase MCP.
@@ -44,11 +53,18 @@ metabase-mcp  | Tool postApiactionIdpublic_link added to Metabase MCP.
 metabase-mcp  | Tool deleteApiactionIdpublic_link added to Metabase MCP.
 metabase-mcp  | Tool getApiactionpublic added to Metabase MCP.
 metabase-mcp  | Tool getApiactivitymost_recently_viewed_dashboard added to Metabase MCP.
-metabase-mcp  | Tool getApiactivitypopular_items added to Metabase MCP.
-metabase-mcp  | Tool getApiactivityrecent_views added to Metabase MCP.
-metabase-mcp  | Tool getApiactivityrecents added to Metabase MCP.
-metabase-mcp  | Tool postApiactivityrecents added to Metabase MCP.
 ...
-metabase-mcp  | [FastMCP info] server is running on SSE at http://localhost:3000/sse
-metabase-mcp  | Metabase MCP 0.0.1 running as sse
+metabase-mcp  | [FastMCP info] server is running on HTTP Stream at http://localhost:3000/stream
+metabase-mcp  | Metabase MCP 0.0.1 running as httpStream
+```
+
+## Setup MCP in Librechat
+
+- `librechat.yml`
+
+```
+mcpServers:
+  metabase:
+    type: streamable-http
+    url: http://metabase:3000/stream
 ```
