@@ -3,10 +3,10 @@ services:
     image: nexpando/open-api-mcp
     container_name: metabase-mcp
     volumes:
-    - type: bind
-      source: ./get-axios.ts
-      target: /app/get-axios.ts
-    - ./specs:/app/specs
+      - type: bind
+        source: ./get-axios.ts
+        target: /app/get-axios.ts
+      - ./specs:/app/specs
     environment:
       - OPEN_API_FILE=/app/specs/open-api.json
       - API_URL=${API_URL}

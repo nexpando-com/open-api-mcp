@@ -2,21 +2,18 @@ networks:
   local_network:
     external: true
 services:
-  pocketbase-mcp:
+  stirling-pdf-mcp:
     image: nexpando/open-api-mcp
-    container_name: pocketbase-mcp
+    container_name: stirling-pdf-mcp
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
-      - type: bind
-        source: ./get-axios.ts
-        target: /app/get-axios.ts
       - ./specs:/app/specs
     environment:
       - OPEN_API_FILE=/app/specs/open-api.yml
-      - API_URL=http://pocketbase:8080
+      - API_URL=http://stirling-pdf:8080
       - API_KEY=${API_KEY}
-      - MCP_NAME=Pocketbase MCP
+      - MCP_NAME=Stirling PDF MCP
       - MCP_VERSION=0.0.1
     networks:
       - local_network

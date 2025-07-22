@@ -92,7 +92,7 @@ It simplifies the process of creating API clients and servers by leveraging Open
          # - API_KEY
          # - MCP_NAME=My MCP Server
          # - MCP_VERSION=1.0.0
-         # - MCP_TRANSPORT_TYPE=sse|stdio
+         # - MCP_TRANSPORT_TYPE=httpStream|sse|stdio
    ```
 
 4. Replace `API_URL` and `API_KEY` with your data.
